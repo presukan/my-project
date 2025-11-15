@@ -1,0 +1,22 @@
+const express = require("express");
+const router = express.Router();
+const Order = require("../models/Order");
+
+// Save order
+router.post("/", async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.json({ message: "Order saved successfully!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all orders
+router.get("/", async (req, res) => {
+  const orders = await Order.find();
+  res.json(orders);
+});
+
+module.exports = router;
